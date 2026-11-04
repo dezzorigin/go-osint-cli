@@ -5,16 +5,15 @@
 | Field | Nilai |
 |---|---|
 | Nama Proyek | Go Osint Cli |
-| Repo | dezzorigin/go-osint-cli |
 | Tech Stack | Go (Golang) |
-| Status | Awal / prototipe |
+| Status | Dalam pengembangan |
 | Penanggung Jawab | Nabil Aulia Dika |
 | Versi Dokumen | 1.0 |
 | Tanggal | 2026 |
 
 ## 2. Latar Belakang
 
-Proyek ini dikembangkan sebagai bagian dari portofolio dan kebutuhan operasional. Dokumen ini mengikuti standar PRD nasional untuk memastikan ruang lingkup, fitur, dan kriteria keberhasilan terdefinisi dengan jelas.
+Proyek ini dikembangkan sebagai bagian dari portofolio dan kebutuhan operasional. Dokumen ini mengikuti standar PRD nasional agar ruang lingkup, fitur, dan kriteria keberhasilan terdefinisi dengan jelas.
 
 ## 3. Masalah yang Diselesaikan
 
@@ -40,6 +39,9 @@ Pengguna membutuhkan solusi digital yang efisien, terukur, dan mudah dipelihara 
 ## 6. Fitur & Persyaratan Fungsional
 
 Struktur proyek (file/direktori utama):
+- LICENSE
+- PRD.md
+- README.md
 - go.mod
 - main.go
 
