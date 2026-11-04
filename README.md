@@ -1,32 +1,48 @@
 # Go Osint Cli
 
-Go Osint Cli — project by Nabil Aulia Dika (dezzorigin).
+Go Osint Cli — project oleh Nabil Aulia Dika (dezzorigin).
 
 ## Status Proyek
 
-**Awal / prototipe** _(belum ada indikator)_
+**Dalam pengembangan** _(README ada)_
 
-## Tech Stack
+## 📋 Tech Stack
 
 Go (Golang)
 
-## Struktur Proyek
+## 🏗️ Arsitektur
+
+```mermaid
+flowchart LR
+  C[Client] --> G[Go API]
+  G --> D[(Database)]
+```
+
+## 📁 Struktur Proyek
 
 ```
+LICENSE
+PRD.md
+README.md
 go.mod
 main.go
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ```bash
-go mod download
-go run .
+# Install dependencies
+npm install
+
+# Jalankan development server
+npm run dev
 ```
 
-## Lisensi
+> Untuk project HTML/Python/Go, lihat instruksi di atas atau file konfigurasi.
 
-MIT — lihat file [LICENSE](./LICENSE).
+## 📄 Lisensi
+
+MIT — lihat [LICENSE](./LICENSE).
 
 ---
-_Dibuat dan dikelola oleh Nabil Aulia Dika. Kontribusi dan issue welcome._
+_Dikembangkan oleh **dezzorigin** (Nabil Aulia Dika)._
