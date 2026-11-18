@@ -1,0 +1,16 @@
+# Binaries & build output
+go-osint-cli
+go-osint-cli.exe
+/bin/
+
+# Go test & coverage artifacts
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Go build cache (lives outside the repo anyway)
+# .env files must never be committed
+.env
+.env.*
+!.env.example
