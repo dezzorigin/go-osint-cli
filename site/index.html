@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>go-osint-cli — Cek username di 5 platform, dari terminal</title>
+<meta name="description" content="CLI Go kecil untuk mengecek apakah sebuah username sudah dipakai di GitHub, GitLab, Dev.to, Pinterest, dan Reddit. Sekali jalan, hasilnya berurutan dan jujur.">
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --line:#30363d; --fg:#e6edf3; --dim:#8b949e;
+          --green:#3fb950; --red:#f85149; --yellow:#d29922; --blue:#58a6ff; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg); font:16px/1.6 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  a { color:var(--blue); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .wrap { max-width:880px; margin:0 auto; padding:0 20px; }
+  nav { border-bottom:1px solid var(--line); }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .logo { font-weight:700; font-size:18px; color:var(--fg); font-family:ui-monospace,Menlo,Consolas,monospace; }
+  .logo span { color:var(--green); }
+  .gh { display:inline-flex; align-items:center; gap:8px; color:var(--fg); font-size:14px; }
+  .gh svg { width:20px; height:20px; fill:var(--fg); }
+  header { padding:72px 0 48px; }
+  h1 { font-size:clamp(30px,5vw,44px); line-height:1.15; letter-spacing:-.02em; }
+  h1 .g { color:var(--green); }
+  .sub { color:var(--dim); font-size:18px; margin-top:16px; max-width:640px; }
+  .cta { display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
+  .btn { display:inline-block; padding:11px 20px; border-radius:8px; font-weight:600; font-size:15px; }
+  .btn-p { background:var(--green); color:#0d1117; }
+  .btn-p:hover { text-decoration:none; opacity:.92; }
+  .btn-s { border:1px solid var(--line); color:var(--fg); }
+  pre { background:#010409; border:1px solid var(--line); border-radius:10px; padding:18px 20px;
+        overflow-x:auto; font:14px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  pre .g { color:var(--green); } pre .r { color:var(--red); } pre .y { color:var(--yellow); }
+  pre .d { color:var(--dim); } pre .b { color:var(--blue); }
+  .term { margin-top:32px; }
+  section { padding:40px 0; border-top:1px solid var(--line); }
+  h2 { font-size:22px; margin-bottom:14px; letter-spacing:-.01em; }
+  p, li { color:var(--dim); }
+  p b, li b { color:var(--fg); }
+  table { width:100%; border-collapse:collapse; font-size:15px; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); }
+  th { color:var(--fg); } td { color:var(--dim); }
+  td:first-child { color:var(--fg); font-weight:600; }
+  ol { padding-left:22px; } ol li { margin:8px 0; }
+  .note { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--yellow);
+         border-radius:8px; padding:14px 18px; font-size:15px; }
+  code { font-family:ui-monospace,Menlo,Consolas,monospace; background:var(--panel);
+         padding:2px 6px; border-radius:5px; font-size:.9em; color:var(--fg); }
+  footer { border-top:1px solid var(--line); padding:28px 0 40px; color:var(--dim); font-size:14px; }
+  footer .wrap { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="logo" href="/">go-osint-cli<span>_</span></a>
+  <a class="gh" href="https://github.com/dezzorigin/go-osint-cli" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+    GitHub</a>
+</div></nav>
+
+<header><div class="wrap">
+  <h1>Username ini<br>dipakai di mana saja<span class="g">?</span></h1>
+  <p class="sub">go-osint-cli mengecek satu username di GitHub, GitLab, Dev.to, Pinterest, dan Reddit — paralel, dari terminal, hasilnya berurutan dan jujur.</p>
+  <div class="cta">
+    <a class="btn btn-p" href="https://github.com/dezzorigin/go-osint-cli" target="_blank" rel="noopener">Lihat di GitHub →</a>
+    <a class="btn btn-s" href="#install">Cara install</a>
+  </div>
+  <div class="term"><pre><span class="b">$</span> ./go-osint-cli dezzorigin
+
+Scanning for 'dezzorigin' across 5 platforms...
+
+[GitHub] <span class="g">Found</span> -&gt; https://github.com/dezzorigin
+[GitLab] <span class="y">Redirect (Status: 302)</span> — cannot verify (login wall?)
+[Dev.to] <span class="r">Not Found</span> (Available)
+[Pinterest] <span class="g">Found</span> -&gt; https://www.pinterest.com/dezzorigin/
+[Reddit] <span class="g">Found</span> -&gt; https://www.reddit.com/user/dezzorigin/
+
+Scan completed in: 2.84s</pre></div>
+</div></header>
+
+<section id="install"><div class="wrap">
+  <h2>Install</h2>
+  <p>Butuh Go 1.26 atau lebih baru. Tidak ada dependensi di luar standard library.</p>
+  <pre style="margin-top:14px"><span class="d"># dari source</span>
+git clone https://github.com/dezzorigin/go-osint-cli.git
+cd go-osint-cli
+go build -o go-osint-cli .
+
+<span class="d"># atau langsung dari Go</span>
+go install github.com/dezzorigin/go-osint-cli@latest</pre>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Cara pakai</h2>
+  <pre><span class="d"># username sebagai argumen</span>
+./go-osint-cli dezzorigin
+
+<span class="d"># atau interaktif — program bertanya dulu</span>
+./go-osint-cli
+Enter username to check: dezzorigin</pre>
+  <p style="margin-top:14px">Satu kali jalan mengecek <b>5 platform sekaligus</b> (paralel, timeout 10 detik per platform) lalu mencetak hasilnya dalam urutan platform yang tetap.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Platform yang dicek</h2>
+  <table>
+    <tr><th>Platform</th><th>Metode</th><th>Arti hasil</th></tr>
+    <tr><td>GitHub</td><td>GET github.com/&lt;user&gt;</td><td>200 = ada, 404 = tersedia</td></tr>
+    <tr><td>GitLab</td><td>GET gitlab.com/&lt;user&gt;</td><td>sering redirect ke halaman login</td></tr>
+    <tr><td>Dev.to</td><td>GET dev.to/&lt;user&gt;</td><td>200 = ada, 404 = tersedia</td></tr>
+    <tr><td>Pinterest</td><td>GET pinterest.com/&lt;user&gt;/</td><td>lihat catatan di bawah</td></tr>
+    <tr><td>Reddit</td><td>GET reddit.com/user/&lt;user&gt;/</td><td>lihat catatan di bawah</td></tr>
+  </table>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Jujur soal batasnya</h2>
+  <div class="note">Tool ini membaca <b>kode status HTTP</b> saja. Dua hal yang perlu diketahui: <b>Reddit dan Pinterest mengembalikan 200 untuk username apa pun</b> — jadi “Found” di sana artinya halamannya merespons, bukan bukti akunnya ada. <b>GitLab mengarahkan semua permintaan anonim ke halaman login</b> (302), jadi hasilnya “cannot verify”. Jangan jadikan output ini satu-satunya bukti.</div>
+  <p style="margin-top:14px">Detail lengkap, termasuk arsitektur dan diagram alur, ada di <a href="https://github.com/dezzorigin/go-osint-cli/tree/main/docs">folder docs repo</a>.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <span>go-osint-cli — MIT License · oleh <a href="https://github.com/dezzorigin">dezzorigin</a></span>
+  <span><a href="https://github.com/dezzorigin/go-osint-cli">GitHub</a> · v1.1.0</span>
+</div></footer>
+</body>
+</html>
